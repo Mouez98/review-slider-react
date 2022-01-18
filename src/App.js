@@ -6,20 +6,30 @@ function App() {
   const [people, setPeople] = useState(data);
   const [index, setIndex] = useState(0);
 
+  useEffect(()=>{
+     const lastIndex = people.length - 1;
+     if(index < 0){
+      setIndex(lastIndex)
+     }
+     if(index > lastIndex){
+        setIndex(0)
+     }
+  }, [people,index])
+
+  useEffect(()=>{
+   const slider = setInterval(()=>{
+      setIndex(index +1)
+    },5000)
+    return ()=> clearInterval(slider)
+  })
+
   const increment = ()=> {
-  if(index < people.length - 1){
-    setIndex((prevIndex) => {
-      return prevIndex + 1
-    })
-  }
+    setIndex(index + 1)
   }
   const decrement = ()=> {
-  if(index <= people.length - 1){
-    setIndex((prevIndex) => {
-      return prevIndex - 1
-    })
+     setIndex(index - 1)
   }
-  }
+  
 
   return (
     <section className="section">
@@ -38,7 +48,7 @@ function App() {
             position = 'activeSlide';
           }
           
-           if(personIndex === index - 1 || (index === 0 && personIndex === people.length - 1)) {
+           if(personIndex === index - 1 ||(index === 0 && personIndex === people.length - 1)) {
              position = 'lastSlide'
            }
 
